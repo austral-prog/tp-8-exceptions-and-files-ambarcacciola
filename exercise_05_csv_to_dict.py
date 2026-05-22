@@ -1,37 +1,27 @@
-# Ejercicio 5 - CSV a lista de diccionarios
+def csv_to_dict(nombre_archivo):
+    with open(nombre_archivo, 'r') as archivo:
+        contenido = archivo.read().strip()
 
+    if not contenido:
+        return []
 
-def csv_to_dict(filename):
-    """
-    Lee un archivo CSV con header "name,age,city" y retorna una lista de
-    diccionarios, uno por fila.
+    lineas = contenido.split('\n')
 
-    Reglas:
-    - La primera línea es siempre el header.
-    - Las claves del diccionario se toman del header.
-    - El campo "age" se convierte a int. "name" y "city" quedan como str.
-    - Se deben hacer strip a los valores para eliminar espacios sobrantes.
-    - Si el archivo está vacío o solo tiene header, retornar [].
-    - Si el archivo no existe, propagar FileNotFoundError.
-    - No se permite usar el módulo csv.
+    encabezado = lineas[0].strip().split(',')
 
-    Args:
-        filename: str - nombre del archivo a leer.
+    lista_resultado = []
 
-    Returns:
-        list[dict] - lista de diccionarios por fila del CSV.
+    for i in range(1, len(lineas)):
+        linea_limpia = lineas[i].strip()
 
-    Raises:
-        FileNotFoundError: si el archivo no existe.
+        if linea_limpia:
+            datos_fila = linea_limpia.split(',')
 
-    Ejemplo:
-        # archivo contiene:
-        # name,age,city
-        # Alice,30,Buenos Aires
-        # Bob,25,Rosario
-        csv_to_dict("people.csv") -> [
-            {"name": "Alice", "age": 30, "city": "Buenos Aires"},
-            {"name": "Bob", "age": 25, "city": "Rosario"},
-        ]
-    """
-    pass  # Reemplazar con tu implementación
+            diccionario_persona = {
+                'name': datos_fila[0],
+                'age': int(datos_fila[1]),
+                'city': datos_fila[2]
+            }
+            lista_resultado.append(diccionario_persona)
+
+    return lista_resultado
